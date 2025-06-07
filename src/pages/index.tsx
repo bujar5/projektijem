@@ -1,113 +1,181 @@
 import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
+import { motion } from "framer-motion";
+import CustomImage from "@/assets/images/image.jpg";
+import Button from "@/components/shared/Button";
+import Card from "@/components/shared/Card";
+import { Rocket, BarChart, ShieldCheck } from "lucide-react";
+import useFetch from "@/components/hooks/useFetch";
+import { useEffect, useState } from "react";
+import { CircularProgress } from "@mui/material";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+export interface Post{
+ id:string;
+ title: string;
+ body: string;
+}
 
 export default function Home() {
+  const {data: initialPosts, loading} = useFetch<Post[]>(
+    "https://jsonplaceholder.typicode.com/posts"
+  );
+const [posts, setPosts] = useState<Post[] | null>(null);
+
+useEffect(() => {
+  if(initialPosts){
+    setPosts(initialPosts);
+  }
+}, [initialPosts]);
+
+
+const handleDelete = (id: string) => {
+  if(posts){
+    setPosts(posts.filter((post) => post.id !== id));
+  }
+}
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/pages/index.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+    <div className="pt-14">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-gray-50 to-gray-200">
+        
+        {/* Hero Section */}
+        <motion.section
+          className="w-full py-24 flex flex-col items-center justify-center bg-gradient-to-r from-yellow-500 to-yellow-400 text-black text-center shadow-md"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+        >
+          <h1 className="text-5xl font-extrabold mb-4 drop-shadow-lg">
+            Mirë se vini në aplikacionin tonë!
+          </h1>
+          <p className="text-xl max-w-xl mb-6 text-gray-900">
+            Ndërtoni aplikacione të fuqishme dhe të shpejta me Next.js
+          </p>
+          <Button
+            text="Mëso më shumë"
+            variant="secondary"
+            onClick={() => alert("Redirecting")}
+          />
+        </motion.section>
+
+        {/* About Section */}
+        <motion.section
+          className="max-w-6xl py-20 px-6 text-center"
+          initial={{ x: -100 }}
+          animate={{ x: 0 }}
+          transition={{ duration: 1 }}
+        >
+          <h2 className="text-4xl font-bold mb-6 text-yellow-600">
+            Rreth nesh
+          </h2>
+          <p className="text-gray-600 mb-8 leading-relaxed">
+            Ne krijojmë aplikacione të avancuara duke përdorur teknologjitë më të fundit.
+            Fokusimi ynë kryesor është të ofrojmë produkte të optimizuara dhe SEO-Friendly.
+          </p>
+          <div className="flex justify-center">
             <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+              src={CustomImage}
+              alt="Imazh rreth nesh"
+              width={500}
+              height={300}
+              className="rounded-2xl shadow-xl"
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+          </div>
+        </motion.section>
+
+        {/* Features Section */}
+        <motion.section
+          className="w-full py-20 bg-white text-center"
+          initial={{ x: 100 }}
+          animate={{ x: 0 }}
+          transition={{ duration: 1 }}
+        >
+          <div className="container mx-auto px-6">
+            <h2 className="text-4xl font-bold mb-6 text-yellow-600">
+              Karakteristikat kryesore
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mt-10">
+              <Card
+                title="Shpejtësi & Performancë"
+                description="Aplikacionet më të shpejta me optimizim të avancuar."
+                icon={Rocket}
+              />
+              <Card
+                title="SEO E Avancuar"
+                description="Rankim më i mirë në motorët e kërkimit."
+                icon={BarChart}
+              />
+              <Card
+                title="Siguri Maksimale"
+                description="Mbrojtje e të dhënave dhe siguri e lartë për përdoruesit."
+                icon={ShieldCheck}
+              />
+            </div>
+          </div>
+        </motion.section>
+
+        {/* Services Section */}
+        <motion.section
+          className="w-full py-20 px-6 text-center"
+          initial={{ scale: 0.8 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 1 }}
+        >
+          <h2 className="text-4xl font-bold mb-6 text-yellow-600">
+            Shërbimet tona
+          </h2>
+          <p className="text-gray-700 mb-8">
+            Ofrojmë një gamë të gjerë shërbimesh për biznesin tuaj.
+          </p>
+          <Button
+            text="Shikoni Shërbimet"
+            onClick={() => alert("Redirecting...")}
+          />
+        </motion.section>   
+        
+        {/* Blog Section*/}
+        <div className="grid grid-cols-3 py-20 bg-gray-200">
+          {loading? (
+          <CircularProgress/>
+          ) : (
+        <>
+        {posts && posts?.map((post) => <motion.section
+          key={post.id}
+          className="max-w-6xl py-20 px-6 text-center"
+          initial={{ scale: 0.8 }}
+          animate= {{ scale: 1 }}
+          transition={{duration: 1}}
+
           >
-            Read our docs
-          </a>
+            <h2 className="text-4xl font-bold mb-6 text-yellow-600 line-clamp-2 uppercase">
+              {post.title}
+              </h2>
+            <p className="text-gray-700 mb-6">{post.body}</p>
+            <button onClick={() => handleDelete(post.id)}
+             className="px-6 py-2 bg-red-600 text-white rounded-xl hover:bg-red-700 transition">Fshij postin</button>
+        </motion.section>)}
+        </>
+        
+        )}
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+        {/* Contact Section */}
+        <motion.section
+          className="w-full py-20 bg-gradient-to-r from-yellow-400 to-yellow-500 text-black text-center mt-10"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+          <h2 className="text-4xl font-bold mb-6">Kontaktoni me ne</h2>
+          <p className="mb-2">Email: contact@mycompany.com</p>
+          <p className="mb-2">Tel: +383 123 456 789</p>
+          <p className="mb-6">Adresa: Prizren, Kosovë</p>
+          <Button
+            text="Na Kontaktoni"
+            variant="secondary"
+            onClick={() => alert("Opening Contact Form...")}
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        </motion.section>
+      </div>
     </div>
   );
 }
+
+Home.displayName = "My application";
