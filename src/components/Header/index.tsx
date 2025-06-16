@@ -12,6 +12,7 @@ export function Header() {
     { name: "About", pathName: "/about" },
     { name: "Contact Us", pathName: "/contact" },
     { name: "Blogs", pathName: "/blogs"},
+    { name: "News", pathName: "/news"},
   ];
 
   return (

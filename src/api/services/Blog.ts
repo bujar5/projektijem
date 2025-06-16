@@ -11,10 +11,7 @@ export async function createBlog(data: Blog) {
         ...blogData,
         createdAt: new Date()
     });
-    return {
-        result,
-        id: result.insertedId.toString()
-    } 
+    return result;
 }
 
 export async function getBlogs(){
@@ -39,7 +36,7 @@ export async function getBlog(id: string){
 export async function updateBlog(id: string, data: Blog){
     const client = await clientPromise;
     const db = client.db("myapp")
-    const blog = await db.collection("blogs").updateOne({id: new ObjectId(id)}, {"$set":data});
+    const blog = await db.collection("blogs").updateOne({_id: new ObjectId(id)}, {"$set":data});
     return blog;
 }
 

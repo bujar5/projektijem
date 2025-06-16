@@ -1,12 +1,16 @@
 import {useState, useEffect} from "react"
 
-function useFetch<T>(url: string) {
+function useFetch<T>(url: string | null) {
     const [data, setData] = useState<T | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
     //GET request on mount
     useEffect(() => {
+        if (!url) {
+            setLoading(false);
+            return;
+        }
         fetch(url)
         .then((response) => response.json())
         .then((result) => {
@@ -25,6 +29,7 @@ function useFetch<T>(url: string) {
         setLoading(true)
         setError(null)
         try{
+            if (!url) throw new Error("URL is null");
             const res = await fetch(url, {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
@@ -32,6 +37,7 @@ function useFetch<T>(url: string) {
             })
             const result = await res.json();
             setData(result);
+            return result;
         }catch(err: any){
             setError(err.message || "POST failed");
         }finally {
@@ -44,6 +50,7 @@ function useFetch<T>(url: string) {
         setLoading(true)
         setError(null)
         try{
+            if (!url) throw new Error("URL is null");
             const res = await fetch(url, {
                 method: "PUT",
                 headers: {"Content-Type": "application/json"},
@@ -64,7 +71,9 @@ function useFetch<T>(url: string) {
         setLoading(true)
         setError(null)
         try{
-            const res = await fetch(customUrl || url, {
+            const fetchUrl = customUrl || url;
+            if (!fetchUrl) throw new Error("URL is null");
+            const res = await fetch(fetchUrl, {
                 method: "DELETE",
             });
             const result = await res.json();
@@ -81,6 +90,3 @@ function useFetch<T>(url: string) {
 
 export default useFetch;
 
-function err(reason: any): PromiseLike<never> {
-    throw new Error("Function not implemented.");
-}

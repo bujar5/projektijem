@@ -100,7 +100,7 @@ const handleDeleteBlog = async(id: string) => {
         <h1 className="text-4xl font-bold pt-20 pb-6 text-black text-center">
           Shfaqja e blogave nga databaza jone
         </h1>
-        <div>
+        <div className="grid grid-cols-3">
         {blogsData && blogsData.length > 0 ? (
           blogsData.map((post: Blog) => (
             <motion.section

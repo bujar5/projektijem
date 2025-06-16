@@ -8,34 +8,44 @@ import useFetch from "@/components/hooks/useFetch";
 import { useEffect, useState } from "react";
 import { CircularProgress } from "@mui/material";
 
-export interface Post{
- id:string;
- title: string;
- body: string;
+export interface Post {
+  id: string;
+  title: string;
+  body: string;
 }
 
 export default function Home() {
-  const {data: initialPosts, loading} = useFetch<Post[]>(
+  const { data: initialPosts, loading } = useFetch<Post[]>(
     "https://jsonplaceholder.typicode.com/posts"
   );
-const [posts, setPosts] = useState<Post[] | null>(null);
+  const [posts, setPosts] = useState<Post[] | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(6); // Number of posts per page
 
-useEffect(() => {
-  if(initialPosts){
-    setPosts(initialPosts);
+  useEffect(() => {
+    if (initialPosts) {
+      setPosts(initialPosts);
+    }
+  }, [initialPosts]);
+
+  const handleDelete = (id: string) => {
+    if (posts) {
+      setPosts(posts.filter((post) => post.id !== id));
+    }
   }
-}, [initialPosts]);
 
+  // Get current posts
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = posts?.slice(indexOfFirstPost, indexOfLastPost);
 
-const handleDelete = (id: string) => {
-  if(posts){
-    setPosts(posts.filter((post) => post.id !== id));
-  }
-}
+  // Change page
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
   return (
     <div className="pt-14">
       <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-gray-50 to-gray-200">
-        
+
         {/* Hero Section */}
         <motion.section
           className="w-full py-24 flex flex-col items-center justify-center bg-gradient-to-r from-yellow-500 to-yellow-400 text-black text-center shadow-md"
@@ -129,33 +139,62 @@ const handleDelete = (id: string) => {
             text="Shikoni Shërbimet"
             onClick={() => alert("Redirecting...")}
           />
-        </motion.section>   
-        
-        {/* Blog Section*/}
-        <div className="grid grid-cols-3 py-20 bg-gray-200">
-          {loading? (
-          <CircularProgress/>
-          ) : (
-        <>
-        {posts && posts?.map((post) => <motion.section
-          key={post.id}
-          className="max-w-6xl py-20 px-6 text-center"
-          initial={{ scale: 0.8 }}
-          animate= {{ scale: 1 }}
-          transition={{duration: 1}}
+        </motion.section>
 
-          >
-            <h2 className="text-4xl font-bold mb-6 text-yellow-600 line-clamp-2 uppercase">
-              {post.title}
-              </h2>
-            <p className="text-gray-700 mb-6">{post.body}</p>
-            <button onClick={() => handleDelete(post.id)}
-             className="px-6 py-2 bg-red-600 text-white rounded-xl hover:bg-red-700 transition">Fshij postin</button>
-        </motion.section>)}
-        </>
-        
-        )}
+        {/* Blog Section*/}
+        <div className="w-full py-20 bg-gray-200">
+          {loading ? (
+            <div className="flex justify-center">
+              <CircularProgress />
+            </div>
+          ) : (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto px-6">
+                {currentPosts?.map((post) => (
+                  <motion.div
+                    key={post.id}
+                    className="bg-white p-6 rounded-lg shadow-md"
+                    initial={{ scale: 0.8 }}
+                    animate={{ scale: 1 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <h2 className="text-2xl font-bold mb-4 text-yellow-600 line-clamp-2">
+                      {post.title}
+                    </h2>
+                    <p className="text-gray-700 mb-6">{post.body}</p>
+                    <button
+                      onClick={() => handleDelete(post.id)}
+                      className="px-6 py-2 bg-red-600 text-white rounded-xl hover:bg-red-700 transition"
+                    >
+                      Fshij postin
+                    </button>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Pagination Controls */}
+              {posts && posts.length > postsPerPage && (
+                <div className="flex justify-center mt-10">
+                  <nav className="flex items-center gap-2">
+                    {Array.from({ length: Math.ceil(posts.length / postsPerPage) }).map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => paginate(index + 1)}
+                        className={`px-4 py-2 rounded-md ${currentPage === index + 1
+                          ? 'bg-yellow-500 text-white'
+                          : 'bg-white text-gray-700 hover:bg-gray-100'
+                          }`}
+                      >
+                        {index + 1}
+                      </button>
+                    ))}
+                  </nav>
+                </div>
+              )}
+            </>
+          )}
         </div>
+
         {/* Contact Section */}
         <motion.section
           className="w-full py-20 bg-gradient-to-r from-yellow-400 to-yellow-500 text-black text-center mt-10"
