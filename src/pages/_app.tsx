@@ -3,6 +3,7 @@ import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { NewsProvider } from "@/lib/contexts/NewsContext";
+import { SessionProvider } from "next-auth/react";
 
 export default function App({ Component, pageProps }: AppProps) {
   let title = pageProps.title ? pageProps.title : "My Platform";
@@ -48,12 +49,14 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="twitter:image" content={image} />
         <meta name="twitter:image:secure" content={image} />
       </Head>
+      <SessionProvider>
       
       <MainLayout name={Component.displayName}>
         <NewsProvider>
         <Component {...pageProps} />
         </NewsProvider>
       </MainLayout>
+      </SessionProvider>
     </>
   );
 }

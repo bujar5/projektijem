@@ -3,8 +3,12 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import Logo from "@/assets/icons/logo.svg";
 import cs from "classnames";
+import { signOut, useSession} from "next-auth/react"
+import  Button  from "../shared/Button";
 
 export function Header() {
+  const {data: session, status} = useSession();
+
   const router = useRouter();
 
   const items = [
@@ -22,7 +26,7 @@ export function Header() {
           <Image className="h-10 w-auto" src={Logo} alt="Logo" />
         </Link>
 
-        <nav className="flex-1 flex gap-10 items-center justify-center">
+        <div className="flex-1 flex gap-10 items-center justify-center">
           {items.map((item, index) => (
             <Link
               key={index}
@@ -35,7 +39,27 @@ export function Header() {
               {item.name}
             </Link>
           ))}
-        </nav>
+        </div>
+        <div className="flex gap-5">
+          {status == "authenticated" ? (
+            <Button
+            onClick={()=> signOut({callbackUrl: "/sign-in"})}
+            text="Dil"
+            />
+          ):(
+            <>
+            <Button
+            onClick={() => router.push("/sign-up")}
+            text="Regjstrohu"
+            />
+            <Button 
+            onClick={() => router.push("/sign-in")}
+            variant = "secondary"
+            text = "Kycu"
+            />
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
