@@ -2,6 +2,7 @@ import MainLayout from "@/components/MainLayout";
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import Head from "next/head";
+import { NewsProvider } from "@/lib/contexts/NewsContext";
 
 export default function App({ Component, pageProps }: AppProps) {
   let title = pageProps.title ? pageProps.title : "My Platform";
@@ -49,7 +50,9 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
       
       <MainLayout name={Component.displayName}>
+        <NewsProvider>
         <Component {...pageProps} />
+        </NewsProvider>
       </MainLayout>
     </>
   );
