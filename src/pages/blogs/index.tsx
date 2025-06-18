@@ -3,11 +3,11 @@ import { Blog } from "@/api/models/Blog";
 import useFetch from "@/components/hooks/useFetch";
 import { CircularProgress } from "@mui/material";
 import { motion } from "framer-motion";
-// import { div } from "framer-motion/client"; // This import is not used and can be removed
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react"; // Import useSession
+import { getSession, useSession } from "next-auth/react"; // Import getSession for getServerSideProps
+import { GetServerSidePropsContext } from "next"; // Import GetServerSidePropsContext
 
 export interface Post {
   id: string;
@@ -16,7 +16,9 @@ export interface Post {
 }
 
 export default function Blogs() {
-  const { data: session } = useSession(); // Get the session data
+  const { data: session } = useSession();
+
+  // ... (rest of your existing component code) ...
 
   const { data: initialPosts, loading } = useFetch<Post[]>(
     "https://jsonplaceholder.typicode.com/posts"
@@ -24,10 +26,8 @@ export default function Blogs() {
 
   const [posts, setPosts] = useState<Post[] | null>();
 
-  // --- ADDED FOR PAGINATION FUNCTIONALITY ---
-  const postsPerPage = 6; // Number of JSONPlaceholder posts to display per page
-  const [currentPage, setCurrentPage] = useState(1); // Current page for JSONPlaceholder posts
-  // ------------------------------------------
+  const postsPerPage = 6;
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     if (initialPosts) {
@@ -41,11 +41,8 @@ export default function Blogs() {
     }
   };
 
-  // --- ADDED FOR PAGINATION FUNCTIONALITY ---
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
-  // ------------------------------------------
 
-  //Blogs nga databaza jone
   const router = useRouter();
   const {data: blogsData, loading:blogsLoading, remove} = useFetch<Blog[]>("/api/blogs");
 
@@ -65,15 +62,12 @@ export default function Blogs() {
     }
   };
 
-  // Helper function to render JSONPlaceholder posts
   const renderPosts = (type: "ssg" | "ssr" | "isr", title: string) => {
-    // Calculate the posts to display based on current page and postsPerPage
     const indexOfLastPost = currentPage * postsPerPage;
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
     const currentPosts = posts ? posts.slice(indexOfFirstPost, indexOfLastPost) : [];
 
     return (
-      // Modern container for the JSONPlaceholder blog section
       <div className="bg-gradient-to-br from-gray-100 to-gray-200 py-16 px-4 sm:px-6 lg:px-8 rounded-xl shadow-inner mb-12">
         <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-800 mb-10 text-center tracking-tight">
           {title}
@@ -94,15 +88,15 @@ export default function Blogs() {
                 <p className="text-gray-600 mb-6 flex-grow line-clamp-4 text-sm md:text-base">
                   {post.body}
                 </p>
-                <div className="flex justify-center items-center mt-auto pt-4 border-t border-gray-100 flex-wrap gap-2"> {/* Modified for button consistency */}
+                <div className="flex justify-center items-center mt-auto pt-4 border-t border-gray-100 flex-wrap gap-2">
                   <Link href={`/blogs/${type}/${post.id}`}>
-                    <button className="flex-1 min-w-[120px] px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-200 ease-in-out shadow-md text-sm text-center"> {/* Added flex-1 and min-w */}
+                    <button className="flex-1 min-w-[120px] px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-200 ease-in-out shadow-md text-sm text-center">
                       Shiko Detajet
                     </button>
                   </Link>
                   <button
                     onClick={() => handleDelete(post.id)}
-                    className="flex-1 min-w-[120px] px-4 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition duration-200 ease-in-out shadow-md text-sm text-center"> {/* Added flex-1 and min-w */}
+                    className="flex-1 min-w-[120px] px-4 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition duration-200 ease-in-out shadow-md text-sm text-center">
                     Fshij Postin
                   </button>
                 </div>
@@ -121,7 +115,6 @@ export default function Blogs() {
   return (
     <div className="pt-20 min-h-screen bg-gray-50 flex flex-col items-center">
       <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
-        {/* Main Header for the Blogs Page */}
         <header className="py-10 text-center">
           <h1 className="text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight mb-4 tracking-tight">
             Blogjet Tona
@@ -131,7 +124,6 @@ export default function Blogs() {
           </p>
         </header>
 
-        {/* Blogs Section: From our database */}
         {blogsLoading ? (
           <div className="flex justify-center items-center py-20 w-full">
             <CircularProgress />
@@ -157,24 +149,23 @@ export default function Blogs() {
                     <p className="text-gray-600 mb-6 flex-grow line-clamp-4 text-sm md:text-base">
                       {post.body}
                     </p>
-                    <div className="flex justify-center items-center mt-auto pt-4 border-t border-gray-100 flex-wrap gap-2"> {/* Modified for button consistency */}
+                    <div className="flex justify-center items-center mt-auto pt-4 border-t border-gray-100 flex-wrap gap-2">
                       <Link href={"/blogs/" + post._id}>
-                        <button className="flex-1 min-w-[120px] px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-200 ease-in-out shadow-md text-sm text-center"> {/* Added flex-1 and min-w */}
+                        <button className="flex-1 min-w-[120px] px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-200 ease-in-out shadow-md text-sm text-center">
                           Lexo me shume
                         </button>
                       </Link>
 
-                      {/* CONDITIONAL RENDERING FOR ADMIN ACTIONS */}
                       {session?.user?.role === "admin" && (
                         <>
                           <Link href={"/update/blog/" + post._id}>
-                            <button className="flex-1 min-w-[120px] px-4 py-2 bg-yellow-600 text-white font-semibold rounded-lg hover:bg-yellow-700 transition duration-200 ease-in-out shadow-md text-sm text-center"> {/* Added flex-1 and min-w */}
+                            <button className="flex-1 min-w-[120px] px-4 py-2 bg-yellow-600 text-white font-semibold rounded-lg hover:bg-yellow-700 transition duration-200 ease-in-out shadow-md text-sm text-center">
                               Perditeso
                             </button>
                           </Link>
                           <button
                             onClick={() => handleDeleteBlog(post._id!)}
-                            className="flex-1 min-w-[120px] px-4 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition duration-200 ease-in-out shadow-md text-sm text-center"> {/* Added flex-1 and min-w */}
+                            className="flex-1 min-w-[120px] px-4 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition duration-200 ease-in-out shadow-md text-sm text-center">
                             Fshije postimin
                           </button>
                         </>
@@ -195,7 +186,6 @@ export default function Blogs() {
                 </div>
               )}
             </div>
-            {/* "Krijo Blog" button for admin, outside the loop */}
             {blogsData && blogsData.length > 0 && session?.user?.role === "admin" && (
               <div className="text-center pt-10 pb-4">
                 <Link href={"/create/blog"}>
@@ -208,7 +198,6 @@ export default function Blogs() {
           </div>
         )}
 
-        {/* JSONPLACEHOLDER API Section */}
         {loading ? (
           <div className="flex justify-center items-center py-20 w-full">
             <CircularProgress />
@@ -220,7 +209,6 @@ export default function Blogs() {
             {renderPosts("isr", "Blogjet me Rigjenerim Inkremental")}
           </>
         )}
-        {/* Pagination Controls for JSONPlaceholder API Section */}
         {posts && posts.length > postsPerPage && (
           <div className="flex justify-center mt-10 mb-20">
             <nav className="flex items-center gap-2 bg-white p-2 rounded-xl shadow-md">
@@ -245,3 +233,23 @@ export default function Blogs() {
 }
 
 Blogs.displayName = "Blogs | My Application";
+
+// --- ADD THIS getServerSideProps FUNCTION ---
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await getSession(context);
+
+  if (!session) {
+    // If no session, redirect to the main page
+    return {
+      redirect: {
+        destination: '/', // Your main page
+        permanent: false,
+      },
+    };
+  }
+
+  // If there is a session, continue to render the page
+  return {
+    props: {}, // No need to pass session directly as useSession will fetch it client-side
+  };
+}

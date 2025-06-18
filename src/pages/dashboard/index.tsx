@@ -3,6 +3,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 // import { getSession } from "next-auth/react"; // No longer needed for route protection here
 import Head from "next/head"; // Don't forget Head for page title/meta
+import { GetServerSidePropsContext } from "next";
+import { getSession } from "next-auth/react";
 
 // Remove getServerSideProps
 // export async function getServerSideProps(context) {
@@ -111,4 +113,35 @@ export default function AdminDashboard() {
       </div>
     </>
   );
+}
+
+// This function runs on the server before the page is rendered
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await getSession(context); // Get the session from the request context
+
+  // 1. Check if user is logged in at all
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/', // Redirect to your login page if not authenticated
+        permanent: false, // This is a temporary redirect
+      },
+    };
+  }
+
+  // 2. Check user's role (assuming your session includes a 'role' property)
+  // You MUST ensure your authOptions.ts file correctly adds the 'role' to the session
+  if (session.user?.role !== 'admin') {
+    return {
+      redirect: {
+        destination: '/', // Redirect to home page or an unauthorized page
+        permanent: false,
+      },
+    };
+  }
+
+  // If authenticated and is an admin, allow access
+  return {
+    props: {}, // The component will fetch data client-side with useFetch, so no props needed here
+  };
 }
