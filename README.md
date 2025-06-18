@@ -1,40 +1,93 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+🛡️ War Spirit Web App
+Një aplikacion uebi i ndërtuar me Next.js, Tailwind CSS dhe MongoDB, i dedikuar për të ndriçuar të vërtetat politike, duke lejuar përdoruesit të lexojnë postime blogu, të dërgojnë mesazhe kontakti dhe të menaxhojnë përmbajtjen përmes një paneli admin.
 
-## Getting Started
+🚀 Demo Live
+🔗 Kliko këtu për të parë aplikacionin live
 
-First, run the development server:
+🖼️ Pamje nga Ekrani
+🔍 Faqja Kryesore e War Spirit
+📬 Forma e Kontaktit e War Spirit
+🛠️ Paneli Admin i War Spirit
+⚙️ Udhëzime Instalimi
+Klononi projektin:
 
-```bash
+git clone https://github.com/bujar5/projektijem.git
+cd projektijem
+
+Instaloni varësitë:
+
+npm install
+
+Konfiguroni .env.local:
+
+Krijoni një skedar .env.local në rrënjën e projektit dhe shtoni:
+
+MONGODB_URI=mongodb+srv://<user>:<password>@cluster.mongodb.net/mydatabase?retryWrites=true&w=majority
+NEXTAUTH_SECRET=yourSecretKey
+NEXTAUTH_URL=http://localhost:3000
+
+Startoni serverin lokal:
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Vizitoni http://localhost:3000 në shfletuesin tuaj.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+🧩 Teknologjitë e përdorura
+✅ Next.js
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+✅ React
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+✅ TypeScript
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+✅ Tailwind CSS
 
-## Learn More
+✅ MongoDB & Mongoose
 
-To learn more about Next.js, take a look at the following resources:
+✅ NextAuth.js për autentikim
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+✅ REST API me Next.js API Routes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+👥 Anëtarët e Grupit
+Emri
 
-## Deploy on Vercel
+Roli
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Bujar Dema
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+Frontend, API, DB
+
+Bujar Dema
+
+UI Design, Auth
+
+Bujar Dema
+
+Dashboard, Admin tools
+
+✅ Funksionalitetet Kryesore
+📄 Lexo postime blogu që ndriçojnë të vërtetat politike
+
+📨 Forma kontakti me validim dhe ruajtje në MongoDB
+
+🔒 Autentikim i sigurt me NextAuth
+
+🧑‍💼 Panel admin për menaxhimin e përmbajtjes dhe mesazheve
+
+📂 Struktura e Projektit
+/pages
+  /api
+    /auth
+    /blogs
+    /contact
+  /dashboard
+  /contact.tsx
+  /index.tsx
+/components
+/lib
+/public
+.env.local
+
+📬 Kontakt
+Për çdo pyetje ose feedback, ju lutemi na kontaktoni në:
+📧 hello@bujar.com
+📞 +355 XX XXX XXXX
