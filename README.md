@@ -22,9 +22,8 @@ Konfiguroni .env.local:
 
 Krijoni një skedar .env.local në rrënjën e projektit dhe shtoni:
 
-MONGODB_URI=mongodb+srv://<user>:<password>@cluster.mongodb.net/mydatabase?retryWrites=true&w=majority
-NEXTAUTH_SECRET=yourSecretKey
-NEXTAUTH_URL=http://localhost:3000
+ MONGODB_URI: "mongodb+srv://bujardema24:l7MYzPyTVRgSi5gX@cluster0.niustpx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+ NEXTAUTH_SECRET:"FuXtAZkA7OozIXS/iOjuTHds1Ou4VdoHNGyxOzFd4q4=",
 
 Startoni serverin lokal:
 
