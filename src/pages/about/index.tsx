@@ -1,141 +1,144 @@
-// pages/about.tsx
 import Image from "next/image";
 import { motion } from "framer-motion";
-import CustomImage from "@/assets/images/image1.jpg"; // Assuming you have an image for the about page
+import CustomImage from "@/assets/images/WARCover.webp";
 import Button from "@/components/shared/Button";
-import { Users, Lightbulb, TrendingUp } from "lucide-react"; // Keeping some icons, can adjust if needed
-import Head from "next/head"; // Import Head for page title/meta
-import Link from "next/link"; // Import Link for navigation
+import { Users, Lightbulb, TrendingUp } from "lucide-react";
+import Head from "next/head";
+import Link from "next/link"; // Next.js Link component
 
-// Assuming you have a minimal Card component that accepts title, description, icon
-// If not, you can inline the JSX directly or adjust the Card component
 interface CardProps {
   title: string;
   description: string;
-  icon: React.ElementType; // Represents a Lucide icon component
+  icon: React.ElementType;
 }
 
-// Minimal Card component (if you don't have one or it's different)
 const MinimalCard: React.FC<CardProps> = ({ title, description, icon: Icon }) => (
-  <div className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center text-center">
-    <Icon className="w-12 h-12 text-yellow-600 mb-4" />
-    <h3 className="text-xl font-semibold mb-2 text-gray-800">{title}</h3>
-    <p className="text-gray-600">{description}</p>
+  <div className="bg-[#2c2c2c] p-8 rounded-xl shadow-lg flex flex-col items-center text-center transform hover:scale-105 transition-transform duration-300">
+    <Icon className="w-14 h-14 text-[#FFD700] mb-5 animate-pulse" />
+    <h3 className="text-2xl font-bold mb-3 text-white tracking-wide">{title}</h3>
+    <p className="text-gray-300 leading-relaxed text-base">{description}</p>
   </div>
 );
-
 
 export default function AboutUs() {
   return (
     <>
       <Head>
-        <title>Rreth Nesh | My Application</title>
-        <meta name="description" content="Mësoni më shumë rreth kompanisë sonë, misionit dhe vlerave tona." />
+        <title>About Us | War Spirit</title>
+        <meta name="description" content="Learn more about our mission, values, and what we stand for." />
       </Head>
-      <div className="pt-14">
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-gray-50 to-gray-200">
 
-          {/* Minimal Hero Section for About Us - Consistent Yellow Gradient */}
-          <motion.section
-            className="w-full py-24 flex flex-col items-center justify-center bg-gradient-to-r from-yellow-500 to-yellow-400 text-black text-center shadow-md"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
-          >
-            <h1 className="text-5xl font-extrabold mb-4 drop-shadow-lg">
-              Historia dhe Misioni Ynë
-            </h1>
-            <p className="text-xl max-w-xl mb-6 text-gray-900">
-              Jemi një ekip i përkushtuar, duke ndërtuar të ardhmen digjitale me pasion dhe inovacioni.
-            </p>
-            <Link href="/contact"> {/* Link to contact page */}
-              <Button
-                text="Na Kontaktoni"
-                variant="secondary"
-              />
-            </Link>
-          </motion.section>
+      <div className="pt-14 bg-[#121212] text-white min-h-screen flex flex-col">
 
-          {/* Core About Section - Our Story & Vision */}
-          <motion.section
-            className="max-w-6xl py-20 px-6 text-center"
-            initial={{ y: -50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            <h2 className="text-4xl font-bold mb-6 text-yellow-600">
-              Kush Jemi Ne
+        {/* Hero Section */}
+        <motion.section
+          className="w-full py-28 md:py-32 flex flex-col items-center justify-center bg-[#1f1f1f] text-center shadow-2xl relative overflow-hidden"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <h1 className="text-5xl md:text-6xl font-extrabold mb-5 tracking-tighter uppercase text-[#FFD700] leading-tight">
+            Our History & Mission
+          </h1>
+          <p className="text-lg max-w-3xl mb-8 text-gray-300 font-light px-4 leading-relaxed">
+            A fearless voice in the political landscape, shaping ideas with truth and courage,
+            dedicated to empowering insights and fostering informed discussions.
+          </p>
+          {/* FIX: Added passHref and legacyBehavior */}
+          <Link href="/contact" passHref legacyBehavior>
+            <Button
+              text="Contact Us"
+              className="bg-[#FFD700] text-black font-bold px-8 py-4 rounded-full hover:bg-yellow-400 transition-all duration-300 text-lg shadow-md hover:shadow-xl"
+            />
+          </Link>
+        </motion.section>
+
+        {/* Who We Are Section */}
+        <motion.section
+          className="w-full py-20 px-4 sm:px-6 lg:px-8 bg-white text-black text-center shadow-inner"
+          initial={{ y: 50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-[#FFD700] uppercase leading-tight">
+              Who We Are
             </h2>
-            <p className="text-gray-700 mb-8 leading-relaxed">
-              Krijojmë zgjidhje digjitale të personalizuara që i ndihmojnë bizneset të lulëzojnë në një treg gjithnjë e në ndryshim.
-              Fokusi ynë është në inovacionin, cilësinë dhe partneritetet afatgjata me klientët tanë. Ne besojmë se teknologjia
-              mund të jetë një fuqi për të mirë, dhe ne jemi këtu për t'ju ndihmuar të shfrytëzoni plotësisht potencialin e saj.
+            <p className="mb-10 leading-loose text-lg text-gray-800">
+              We are a politically driven platform, fueled by unwavering facts and deep conviction. Through
+              rigorous investigative content and profound insights, we are committed to illuminating
+              complex political truths and empowering the public with uncompromisingly honest journalism.
+              Our goal is to foster a more informed and engaged citizenry.
             </p>
             <div className="flex justify-center mt-8">
               <Image
-                src={CustomImage} // Re-using the image from your home page
-                alt="Our Team Working"
-                width={400}
-                height={250}
-                className="rounded-2xl shadow-xl border-4 border-yellow-200"
+                src={CustomImage}
+                alt="Our Mission"
+                width={300}
+                height={100}
+                className="rounded-3xl shadow-2xl border-4 border-[#000000] object-cover max-w-full h-auto"
               />
             </div>
-          </motion.section>
+          </div>
+        </motion.section>
 
-          {/* What We Stand For (Values/Principles) Section */}
-          <motion.section
-            className="w-full py-20 bg-white text-center"
-            initial={{ y: 50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
-            <div className="container mx-auto px-6">
-              <h2 className="text-4xl font-bold mb-6 text-yellow-600">
-                Për Çfarë Qëndrojmë
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mt-10">
-                <MinimalCard
-                  title="Inovacioni"
-                  description="Gjithmonë në kërkim të ideve dhe teknologjive të reja për të sjellë zgjidhje më të mira."
-                  icon={Lightbulb}
-                />
-                <MinimalCard
-                  title="Cilësia"
-                  description="Krijojmë produkte dhe shërbime me standarde të larta, të orientuara drejt rezultateve."
-                  icon={TrendingUp}
-                />
-                <MinimalCard
-                  title="Partneriteti"
-                  description="Ndërtojmë marrëdhënie të forta dhe afatgjata, duke vendosur klientin në qendër."
-                  icon={Users}
-                />
-              </div>
+        {/* Values Section */}
+        <motion.section
+          className="w-full py-20 bg-[#1f1f1f] text-center"
+          initial={{ y: 50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-4xl md:text-5xl font-bold mb-12 text-[#FFD700] uppercase leading-tight">
+              What We Stand For
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-10">
+              <MinimalCard
+                title="Innovation"
+                description="We constantly seek better ways to inform, connect, and inspire through new ideas and methods, embracing the future of political discourse."
+                icon={Lightbulb}
+              />
+              <MinimalCard
+                title="Excellence"
+                description="Our content is crafted with meticulous precision and unparalleled depth, ensuring we never compromise on quality or the pursuit of truth."
+                icon={TrendingUp}
+              />
+              <MinimalCard
+                title="Integrity"
+                description="We build lasting trust with our audience by standing firmly behind honest, unbiased reporting and transparent practices."
+                icon={Users}
+              />
             </div>
-          </motion.section>
+          </div>
+        </motion.section>
 
-          {/* Minimal Contact Call to Action - Consistent Yellow Gradient */}
-          <motion.section
-            className="w-full py-20 bg-gradient-to-r from-yellow-400 to-yellow-500 text-black text-center mt-10"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
-          >
-            <h2 className="text-4xl font-bold mb-6">Gati për të Filluar?</h2>
-            <p className="mb-6">
-              Na kontaktoni sot për të diskutuar projektin tuaj.
+        {/* Call to Action */}
+        <motion.section
+          className="w-full py-24 bg-[#121212] text-white text-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+        >
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-[#FFD700] uppercase leading-tight">Ready to Connect?</h2>
+            <p className="mb-8 text-gray-300 leading-relaxed text-lg">
+              Reach out to our editors and be part of the political awakening.
+              Your voice matters in shaping a more informed world.
             </p>
-            <Link href="/contact"> {/* Link to contact page */}
+            {/* FIX: Added passHref and legacyBehavior */}
+            <Link href="/contact" passHref legacyBehavior>
               <Button
-                text="Na Kontaktoni"
-                variant="secondary"
+                text="Send Us a Message"
+                className="border-2 border-[#FFD700] text-[#FFD700] px-8 py-4 rounded-full hover:bg-[#FFD700] hover:text-black transition-all duration-300 text-lg shadow-md hover:shadow-xl"
               />
             </Link>
-          </motion.section>
+          </div>
+        </motion.section>
 
-        </div>
       </div>
     </>
   );
 }
 
-AboutUs.displayName = "AboutUs | My Application";
+AboutUs.displayName = "About Us | War Spirit";
