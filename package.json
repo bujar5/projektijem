@@ -13,6 +13,7 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mui/material": "^7.1.0",
+    "@netlify/next": "^1.4.9",
     "bcrypt": "^6.0.0",
     "classnames": "^2.5.1",
     "framer-motion": "^12.10.5",
