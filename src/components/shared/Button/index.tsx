@@ -3,13 +3,20 @@ import cs from "classnames";
 
 interface Props {
   text: string;
-  onClick: () => void;
+  onClick?: () => void;
   variant?: "primary" | "secondary" | "tertiary" | "quaternary";
   type?: "button" | "submit" | "reset";
+  className?: string; // ✅ allow custom className
 }
 
 const Button = (props: Props) => {
-  const { text, onClick, variant = "primary", type = "button" } = props;
+  const {
+    text,
+    onClick,
+    variant = "primary",
+    type = "button",
+    className,
+  } = props;
 
   const buttonStyles = {
     primary: "bg-yellow-600 hover:bg-yellow-700 text-white",
@@ -23,7 +30,8 @@ const Button = (props: Props) => {
       type={type}
       className={cs(
         "px-6 py-3 rounded-full font-medium transition-all",
-        buttonStyles[variant]
+        buttonStyles[variant],
+        className // ✅ include custom styles
       )}
       onClick={onClick}
       whileHover={{ scale: 1.05 }}
